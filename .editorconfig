@@ -6,7 +6,7 @@ insert_final_newline = true
 
 [*.{js,ts,jsx,tsx}]
 indent_style = space
-indent_size = 4
+indent_size = 2
 
 [*.{css,html}]
 indent_style = space
