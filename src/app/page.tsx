@@ -3,7 +3,7 @@ import { maybePromise } from "@/common/utils";
 import Image from "next/image";
 
 export default async function Home() {
-  const posts = await maybePromise(LoadPostsWithoutContent, [] as PostWithoutContent[]);
+  const posts = await maybePromise(LoadPostsWithoutContent, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
