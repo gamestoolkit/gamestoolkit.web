@@ -6,3 +6,4 @@ export async function maybePromise<T>(func: () => Promise<T>, defaultValue: T) :
     return defaultValue;
   }
 }
+

@@ -1,4 +1,4 @@
-type PostWithoutContent = {
+export type PostWithoutContent = {
   id: number;
   title: string;
   description: string | undefined;
@@ -6,7 +6,7 @@ type PostWithoutContent = {
   postImage: string | undefined;
 }
 
-type PostWithContent = {
+export type PostWithContent = {
   id: number;
   title: string;
   description: string | undefined;
@@ -14,3 +14,22 @@ type PostWithContent = {
   postImage: string | undefined;
   contentHtml: string;
 }
+
+export type CreatePostCommand = {
+  title: string;
+  description: string | undefined;
+  author: string;
+  postImage: string | undefined;
+  contentHtml: string;
+}
+
+export type CreatePostCommandKey = keyof CreatePostCommand;
+
+export const defaultCreatePostCommand: CreatePostCommand = {
+  title: "default title",
+  description: "default description",
+  author: "default author",
+  postImage: "default image",
+  contentHtml: "default content"
+}
+

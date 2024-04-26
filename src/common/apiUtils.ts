@@ -1,9 +1,11 @@
 import { REVALIDATE_CACHE_SECS } from "./constants";
 
-export async function defaultFetch(url: string) : Promise<Response> {
+export async function defaultFetch(url: string, method: string = "GET", body?: string) : Promise<Response> {
   const res = await fetch(
     url,
     {
+      method,
+      body: body,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -14,10 +16,12 @@ export async function defaultFetch(url: string) : Promise<Response> {
   return res.clone();
 }
 
-export async function noCacheFetch(url: string) : Promise<Response> {
+export async function noCacheFetch(url: string, method: string = "GET", body?: string) : Promise<Response> {
   return await fetch(
     url, 
     { 
+      method,
+      body,
       headers: {
         'Content-Type': 'application/json'
       },
