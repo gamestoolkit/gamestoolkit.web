@@ -3,7 +3,7 @@ import { maybePromise } from "@/common/utils";
 import Image from "next/image";
 
 export default async function Home() {
-  const posts = await maybePromise(LoadPostsWithoutContent, []);
+  const posts = await LoadPostsWithoutContent();
 
   if (posts.length === 0) {
     return (
