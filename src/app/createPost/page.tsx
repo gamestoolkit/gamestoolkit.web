@@ -1,13 +1,25 @@
 "use client"
 
 import { CreatePosts } from "@/api/postsApi";
-import { useForm } from "../hooks/useForm";
+import { ValueType, FunctionTable, PropertyStatus, useForm } from "../hooks/useForm";
 import { useSubmit } from "../hooks/useSubmit";
 import { CreatePostCommand, CreatePostCommandKey, defaultCreatePostCommand } from "@/models/postModels";
 
-export default function CreatePost() {  
-  const onSubmit = useSubmit<CreatePostCommand>(CreatePosts, '/');
-  const [model, handleChange] = useForm<CreatePostCommand>(defaultCreatePostCommand);
+
+const checkRequired = (value: ValueType): PropertyStatus => {
+  if (value === null || value === undefined) {
+    return { status: false} as PropertyStatus;
+  }
+  return { status: value.length > 0} as PropertyStatus;
+}
+
+const checkTable: FunctionTable = {
+  'title': checkRequired,
+}
+
+export default function CreatePost() {    
+  const [model, handleChange, checkModel] = useForm<CreatePostCommand>(defaultCreatePostCommand, checkTable);
+  const onSubmit = useSubmit<CreatePostCommand>(CreatePosts, checkModel, '/');
 
   return (
     <form className="max-w-sm mx-auto" 
@@ -32,7 +44,7 @@ export default function CreatePost() {
   )
 }
 
-function Input({ propertyName, label, model, handleChange }: { propertyName: string, label: string, model: CreatePostCommand, handleChange: (property: string) => (e: React.FormEvent<HTMLInputElement>) => void }) {
+function Input({ propertyName, label, model, handleChange, required = false }: { propertyName: string, label: string, model: CreatePostCommand, handleChange: (property: string) => (e: React.FormEvent<HTMLInputElement>) => void, required?: boolean }) {
   const property = propertyName as CreatePostCommandKey;
   return (
     <>
@@ -44,9 +56,11 @@ function Input({ propertyName, label, model, handleChange }: { propertyName: str
       <input
         type="text"
         name={propertyName}
+        id={propertyName}
         onChange={handleChange(propertyName)}
         value={model[property]}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+        required={required}
       />
     </>
   )
